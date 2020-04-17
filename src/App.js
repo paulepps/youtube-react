@@ -1,16 +1,13 @@
-import React from 'react';
-import HeaderNav from './containers/HeaderNav/HeaderNav';
-import {SideBar} from './containers/SideBar/SideBar';
-import { Home } from './containers/Home/Home';
+import React from "react";
+import { Home } from "./containers/Home/Home";
+import { AppLayout } from "./components/AppLayout/AppLayout";
 
 function App() {
-  return (
-    <>
-        <HeaderNav />
-        <SideBar />
-        <Home />
-    </>
-  );
+    return (
+        <AppLayout>
+            <Home />
+        </AppLayout>
+    );
 }
 
 export default App;
