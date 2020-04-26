@@ -1,0 +1,56 @@
+@import "../../styles/shared.scss";
+
+.video-metadata {
+    color: #707070;
+    font-size: 16px;
+
+    h3 {
+        font-weight: 400;
+        color: $text-color-dark;
+    }
+
+    .video-stats {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        align-items: center;
+    }
+}
+
+.rating {
+    display: inline-grid;
+    grid: auto auto / max-content max-content;
+    column-gap: 16px;
+    grid-row-gap: 4px;
+    .thumbs-up {
+        grid-column: 1 / 2;
+        grid-row: 1 / 2;
+    }
+    .thumbs-down {
+        grid-column: 2 / 3;
+        grid-row: 1 / 2;
+    }
+    .progress {
+        grid-column: 1 / span 2;
+        grid-row: 2 / 3;
+
+        &.ui.progress:last-child {
+            margin-bottom: 0;
+        }
+    }
+}
+
+.video-stats {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    align-items: center;
+
+    .video-actions {
+        display: flex;
+        align-items: center;
+        & > *:not(:last-child) {
+            margin-right: 8px;
+        }
+    }
+}
