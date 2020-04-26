@@ -11,7 +11,7 @@ export const Watch = () => {
         <div className="watch-grid">
             <Video className="video" id="-7fuHEEmEjs" />
             <VideoMetadata className="metadata" viewcount={1000} />
-            <VideoInfoBox />
+            <VideoInfoBox className="video-info-box" />
             <div
                 className="comments"
                 style={{

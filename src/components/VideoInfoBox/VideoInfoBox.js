@@ -1,6 +1,7 @@
 import React from "react";
 import "./VideoInfoBox.scss";
 import { Image, Button, Divider } from "semantic-ui-react";
+import Linkify from "react-linkify";
 
 export class VideoInfoBox extends React.Component {
     constructor(props) {
@@ -10,7 +11,6 @@ export class VideoInfoBox extends React.Component {
         };
     }
     render() {
-        const descriptionParagraphs = this.getDescriptionParagraphs();
         let descriptionTextClass = "collapsed";
         let buttonTitle = "Show More";
         if (!this.state.collapsed) {
@@ -33,9 +33,11 @@ export class VideoInfoBox extends React.Component {
                     </div>
                     <Button color="youtube">91.5K Subscribe</Button>
                     <div className="video-description">
-                        <div className={descriptionTextClass}>
-                            {descriptionParagraphs}
-                        </div>
+                        <p>Paragraph 1</p>
+                        <p>Paragraph 2</p>
+                        <p>Paragraph 3</p>
+                        <p>Paragraph 4</p>
+                        <p>Paragraph 5</p>
                         <Button
                             compact
                             onClick={this.onToggleCollapseButtonClick}
@@ -56,18 +58,4 @@ export class VideoInfoBox extends React.Component {
             };
         });
     };
-
-    getDescriptionParagraphs() {
-        const videoDescription = this.props.video.snippet
-            ? this.props.video.snippet.description
-            : null;
-        if (!videoDescription) {
-            return null;
-        }
-        return videoDescription.split("\n").map((paragraph, index) => (
-            <p key={index}>
-                <Linkify>{paragraph}</Linkify>
-            </p>
-        ));
-    }
 }
