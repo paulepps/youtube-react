@@ -18,7 +18,7 @@ export class HomeContent extends React.Component {
         );
     }
     getTrendingVideos() {
-        return this.props.mostPopularVideos.slice(0, AMOUNT_TRENDING_VIDEOS);
+        return this.props.mostPopularVideos && this.props.mostPopularVideos.slice(0, AMOUNT_TRENDING_VIDEOS);
     }
 }
 

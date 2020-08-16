@@ -10,10 +10,6 @@ exports[`HomeContent renders 1`] = `
     <VideoGrid
       title="Trending"
     />
-    <VideoGrid
-      hideDivider={true}
-      title="Autos & Vehicles"
-    />
   </div>
 </div>
 `;
