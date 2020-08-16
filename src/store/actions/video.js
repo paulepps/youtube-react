@@ -1,7 +1,4 @@
 import { createAction, createRequestTypes, REQUEST, SUCCESS, FAILURE } from './index';
-import * as api from '../api/youtube-api';
-import { fork, take, takeEvery, call, all, put } from 'redux-saga/effects';
-import { fetchEntity } from './index';
 
 export const MOST_POPULAR = createRequestTypes('MOST_POPULAR');
 export const mostPopular = {
