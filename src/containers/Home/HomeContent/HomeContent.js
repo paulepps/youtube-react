@@ -20,7 +20,7 @@ export class HomeContent extends React.Component {
         <div className="responsive-video-grid-container">
           <InfiniteScroll
             bottomReachedCallback={this.props.bottomReachedCallback}
-            showLoader={this.props.showLoader}
+            showLoader={() => this.props.showLoader()}
           >
             <VideoGrid title="Trending" videos={trendingVideos} />
             {categoryGrids}

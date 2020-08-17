@@ -31,7 +31,7 @@ export class Home extends React.Component {
 
   componentDidMount() {
     if (this.props.youtubeLibraryLoaded) {
-      this.props.fetchCategoriesAndMostPopularVideos();
+      this.fetchCategoriesAndMostPopularVideos();
     }
   }
 

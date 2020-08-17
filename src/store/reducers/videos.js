@@ -1,10 +1,12 @@
 import {
   MOST_POPULAR,
   MOST_POPULAR_BY_CATEGORY,
-  VIDEO_CATEGORIES,
+  VIDEO_CATEGORIES
 } from "../actions/video";
 import { SUCCESS } from "../actions";
 import { createSelector } from "reselect";
+import { VIDEO_LIST_RESPONSE } from "../api/youtube-response-types";
+import { WATCH_DETAILS } from "../actions/watch";
 
 const initialState = {
   byId: {},
@@ -74,6 +76,23 @@ function reduceFetchMostPopularVideosByCategory(
   };
 }
 
+function reduceWatchDetails(responses, prevState) {
+  const videoDetailResponse = responses.find(
+    (r) => r.result.kind === VIDEO_LIST_RESPONSE
+  );
+  // we know that items will only have one element
+  // because we explicitly asked for a video with a specific id
+  const video = videoDetailResponse.result.items[0];
+
+  return {
+    ...prevState,
+    byId: {
+      ...prevState.byId,
+      [video.id]: video,
+    },
+  };
+}
+
 export default function videos(state = initialState, action) {
   switch (action.type) {
     case MOST_POPULAR[SUCCESS]:
@@ -86,6 +105,9 @@ export default function videos(state = initialState, action) {
         action.categories,
         state
       );
+    case WATCH_DETAILS[SUCCESS]:
+      console.log("WATCH")
+      return reduceWatchDetails(action.response, state);
     default:
       return state;
   }
