@@ -3,25 +3,15 @@ import { bindActionCreators } from "redux";
 import * as watchActions from "../../store/actions/watch";
 import { getYoutubeLibraryLoaded } from "../../store/reducers/api";
 import { getSearchParam } from "../../services/url";
-import "./Watch.scss";
-import { RelatedVideos } from "../../components/RelatedVideos/RelatedVideos";
-import { Video } from "../../components/Video/Video";
-import { VideoMetadata } from "../../components/VideoMetadata/VideoMetadata";
-import { VideoInfoBox } from "../../components/VideoInfoBox/VideoInfoBox";
-import { Comments } from "../Comments/Comments";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
+import WatchContent from "./WatchContent/WatchContent";
 
 export class Watch extends React.Component {
   render() {
+    const videoId = this.getVideoId();
     return (
-      <div className="watch-grid">
-        <Video className="video" id="-7fuHEEmEjs" />
-        <VideoMetadata className="metadata" viewcount={1000} />
-        <VideoInfoBox className="video-info-box" />
-        <Comments className="comments" />
-        <RelatedVideos className="relatedVideos" />
-      </div>
+      <WatchContent videoId={videoId} />
     );
   }
   componentDidMount() {

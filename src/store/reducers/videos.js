@@ -113,6 +113,10 @@ export default function videos(state = initialState, action) {
   }
 }
 
+export const getVideoById = (state, videoId) => {
+  return state.videos.byId[videoId];
+};
+
 export const getMostPopularVideos = createSelector(
   (state) => state.videos.byId,
   (state) => state.videos.mostPopular,
