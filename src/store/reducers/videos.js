@@ -5,14 +5,19 @@ import {
 } from "../actions/video";
 import { SUCCESS } from "../actions";
 import { createSelector } from "reselect";
-import { VIDEO_LIST_RESPONSE, SEARCH_LIST_RESPONSE } from "../api/youtube-response-types";
-import { WATCH_DETAILS } from "../actions/watch";
+import {
+  VIDEO_LIST_RESPONSE,
+  SEARCH_LIST_RESPONSE,
+} from "../api/youtube-response-types";
+import { WATCH_DETAILS, VIDEO_DETAILS } from "../actions/watch";
+import { getSearchParam } from "../../services/url";
 
 const initialState = {
   byId: {},
   mostPopular: {},
   categories: {},
   byCategory: {},
+  related: {},
 };
 
 function reduceFetchMostPopularVideos(response, prevState) {
@@ -83,7 +88,7 @@ function reduceWatchDetails(responses, prevState) {
   // we know that items will only have one element
   // because we explicitly asked for a video with a specific id
   const video = videoDetailResponse.result.items[0];
-  const relatedEntry = reduceRelatedVideosRequest(responses); 
+  const relatedEntry = reduceRelatedVideosRequest(responses);
 
   return {
     ...prevState,
@@ -93,8 +98,8 @@ function reduceWatchDetails(responses, prevState) {
     },
     related: {
       ...prevState.related,
-      [video.id]: relatedEntry
-    }
+      [video.id]: relatedEntry,
+    },
   };
 }
 
@@ -103,12 +108,34 @@ function reduceRelatedVideosRequest(responses) {
     (r) => r.result.kind === SEARCH_LIST_RESPONSE
   );
   const { pageInfo, items, nextPageToken } = relatedVideosResponse.result;
-  const relatedVideoIds = items.map((video) => video.id);
+  const relatedVideoIds = items.map((video) => video.id.videoId);
 
   return {
     totalResults: pageInfo.totalResults,
     nextPageToken,
     items: relatedVideoIds,
+  };
+}
+
+function reduceVideoDetails(responses, prevState) {
+  const videoResponses = responses.filter(
+    (response) => response.result.kind === VIDEO_LIST_RESPONSE
+  );
+  const parsedVideos = videoResponses.reduce((videoMap, response) => {
+    // we're explicitly asking for a video with a particular id
+    // so the response set must either contain 0 items (if a video with the id does not exist)
+    // or at most one item (i.e. the channel we've been asking for)
+    const video = response.result.items ? response.result.items[0] : null;
+    if (!video) {
+      return videoMap;
+    }
+    videoMap[video.id] = video;
+    return videoMap;
+  }, {});
+
+  return {
+    ...prevState,
+    byId: { ...prevState.byId, ...parsedVideos },
   };
 }
 
@@ -125,12 +152,42 @@ export default function videos(state = initialState, action) {
         state
       );
     case WATCH_DETAILS[SUCCESS]:
-      console.log("WATCH");
       return reduceWatchDetails(action.response, state);
+    case VIDEO_DETAILS[SUCCESS]:
+      return reduceVideoDetails(action.response, state);
     default:
       return state;
   }
 }
+
+export const getChannelId = (state, location, name) => {
+  const videoId = getSearchParam(location, name);
+  const video = state.videos.byId[videoId];
+  if (video) {
+    return video.snippet.channelId;
+  }
+  return null;
+};
+
+const getRelatedVideoIds = (state, videoId) => {
+  const related = state.videos.related[videoId];
+
+  return related ? related.items : [];
+};
+
+export const getRelatedVideos = createSelector(
+  getRelatedVideoIds,
+  (state) => state.videos.byId,
+  (relatedVideoIds, videos) => {
+    if (relatedVideoIds) {
+      // filter kicks out null values we might have
+      return relatedVideoIds
+        .map((videoId) => videos[videoId])
+        .filter((video) => video);
+    }
+    return [];
+  }
+);
 
 export const getVideoById = (state, videoId) => {
   return state.videos.byId[videoId];

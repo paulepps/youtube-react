@@ -5,16 +5,16 @@ import { VideoPreview } from "../../VideoPreview/VideoPreview";
 
 export function NextUpVideo(props) {
     return (
-        <>
-            <div className="next-up-container">
-                <h4>Up next</h4>
-                <div className="up-next-toggle">
-                    <span>Autoplay</span>
-                    <Checkbox toggle defaultChecked />
-                </div>
+      <React.Fragment>
+        <div className='next-up-container'>
+            <h4>Up next</h4>
+            <div className='up-next-toggle'>
+              <span>Autoplay</span>
+              <Checkbox toggle defaultChecked />
             </div>
-            <VideoPreview horizontal={true} />
-            <Divider />
-        </>
+        </div>
+        <VideoPreview horizontal={true} video={props.video} pathname='/watch' search={`?v=${props.video.id}`}/>
+        <Divider/>
+      </React.Fragment>
     );
-}
+  }

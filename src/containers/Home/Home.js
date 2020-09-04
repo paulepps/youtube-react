@@ -23,7 +23,7 @@ export class Home extends React.Component {
         <SideBar />
         <HomeContent
           bottomReachedCallback={this.bottomReachedCallback}
-          showLoader={this.shouldShowLoader}
+          showLoader={() => this.shouldShowLoader()}
         />
       </>
     );

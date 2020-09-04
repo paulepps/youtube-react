@@ -6,12 +6,13 @@ import { getSearchParam } from "../../services/url";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import WatchContent from "./WatchContent/WatchContent";
+import { getChannelId } from "../../store/reducers/videos";
 
 export class Watch extends React.Component {
   render() {
     const videoId = this.getVideoId();
     return (
-      <WatchContent videoId={videoId} />
+      <WatchContent videoId={videoId} channelId={this.props.channelId} />
     );
   }
   componentDidMount() {
@@ -32,7 +33,6 @@ export class Watch extends React.Component {
 
   fetchWatchContent() {
     const videoId = this.getVideoId();
-    console.log("V", videoId)
     if (!videoId) {
       this.props.history.push("/");
     }
@@ -43,6 +43,7 @@ export class Watch extends React.Component {
 function mapStateToProps(state, props) {
   return {
     youtubeLibraryLoaded: getYoutubeLibraryLoaded(state),
+    channelId: getChannelId(state, props.location, 'v'),
   };
 }
 
