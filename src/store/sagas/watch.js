@@ -10,8 +10,8 @@ import { SEARCH_LIST_RESPONSE } from "../api/youtube-response-types";
 
 export function* watchWatchDetails() {
   while (true) {
-    const { videoId } = yield take(watchActions.WATCH_DETAILS[REQUEST]);
-    yield fork(fetchWatchDetails, videoId);
+    const { videoId, channelId } = yield take(watchActions.WATCH_DETAILS[REQUEST]);
+    yield fork(fetchWatchDetails, videoId, channelId);
   }
 }
 
@@ -31,16 +31,19 @@ function* fetchVideoDetails(responses) {
   }
 }
 
-export function* fetchWatchDetails(videoId) {
+export function* fetchWatchDetails(videoId, channelId) {
   let requests = [
     buildVideoDetailRequest.bind(null, videoId),
     buildRelatedVideosRequest.bind(null, videoId),
   ];
 
+  if (channelId) {
+    requests.push(buildChannelRequest.bind(null, channelId));
+  }
   try {
     const responses = yield all(requests.map(fn => call(fn)));
     yield put(watchActions.details.success(responses, videoId));
-    yield call (fetchVideoDetails, responses);
+    yield call (fetchVideoDetails, responses, channelId === null);
   } catch (error) {
     yield put(watchActions.details.failure(error));
   }
