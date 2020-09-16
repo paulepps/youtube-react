@@ -4,12 +4,13 @@ import {
   buildVideoDetailRequest,
   buildRelatedVideosRequest,
   buildChannelRequest,
+  buildCommentThreadRequest,
 } from "../api/youtube-api";
 import { REQUEST } from "../actions";
 import {
   SEARCH_LIST_RESPONSE,
   VIDEO_LIST_RESPONSE,
-} from "../api/youtube-response-types";
+} from "../api/youtube-api-response-types";
 
 export function* watchWatchDetails() {
   while (true) {
@@ -60,6 +61,7 @@ export function* fetchWatchDetails(videoId, channelId) {
   let requests = [
     buildVideoDetailRequest.bind(null, videoId),
     buildRelatedVideosRequest.bind(null, videoId),
+    buildCommentThreadRequest.bind(null, videoId),
   ];
 
   if (channelId) {

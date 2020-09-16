@@ -8,7 +8,7 @@ import { createSelector } from "reselect";
 import {
   VIDEO_LIST_RESPONSE,
   SEARCH_LIST_RESPONSE,
-} from "../api/youtube-response-types";
+} from "../api/youtube-api-response-types";
 import { WATCH_DETAILS, VIDEO_DETAILS } from "../actions/watch";
 import { getSearchParam } from "../../services/url";
 
