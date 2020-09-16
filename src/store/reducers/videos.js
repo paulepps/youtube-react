@@ -163,7 +163,7 @@ export default function videos(state = initialState, action) {
 export const getChannelId = (state, location, name) => {
   const videoId = getSearchParam(location, name);
   const video = state.videos.byId[videoId];
-  console.log(video)
+  console.log(video);
   if (video) {
     return video.snippet.channelId;
   }
@@ -267,3 +267,10 @@ function groupVideosByIdAndCategory(response) {
 
   return { byId, byCategory };
 }
+
+export const getAmountComments = createSelector(getVideoById, (video) => {
+  if (video) {
+    return video.statistics.commentCount;
+  }
+  return 0;
+});
