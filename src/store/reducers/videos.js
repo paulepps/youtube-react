@@ -163,7 +163,6 @@ export default function videos(state = initialState, action) {
 export const getChannelId = (state, location, name) => {
   const videoId = getSearchParam(location, name);
   const video = state.videos.byId[videoId];
-  console.log(video);
   if (video) {
     return video.snippet.channelId;
   }
@@ -274,3 +273,19 @@ export const getAmountComments = createSelector(getVideoById, (video) => {
   }
   return 0;
 });
+
+const getMostPopular = (state) => state.videos.mostPopular;
+export const allMostPopularVideosLoaded = createSelector(
+  [getMostPopular],
+  (mostPopular) => {
+    const amountFetchedItems = mostPopular.items ? mostPopular.items.length : 0;
+    return amountFetchedItems === mostPopular.totalResults;
+  }
+);
+
+export const getMostPopularVideosNextPageToken = createSelector(
+  getMostPopular,
+  (mostPopular) => {
+    return mostPopular.nextPageToken;
+  }
+);

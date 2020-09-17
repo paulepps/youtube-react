@@ -8,7 +8,6 @@ export const SideBarItem = (props) => {
   const { location } = useReactRouter();
 
   const shouldBeHighlighted = () => {
-    console.log("loc", location);
     const { pathname } = location;
     if (props.path === "/") {
       return pathname === props.path;
