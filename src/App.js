@@ -14,11 +14,11 @@ class App extends Component {
     return (
       <AppLayout>
         <Switch>
-          <Route path="/" exact component={Home} />
           <Route
             path="/watch"
             render={() => <Watch key={this.props.location.key} />}
           />
+          <Route path="/" component={Home} />
         </Switch>
       </AppLayout>
     );
