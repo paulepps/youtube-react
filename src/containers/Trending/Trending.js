@@ -11,7 +11,7 @@ import {
 import { SideBar } from "../SideBar/SideBar";
 import * as videoActions from "../../store/actions/video";
 import { InfiniteScroll } from "../../components/InfiniteScroll/InfiniteScroll";
-import "./Trending.scss";
+import { VideoList } from "../../components/VideoList/VideoList";
 
 class Trending extends React.Component {
   componentDidMount() {
@@ -25,20 +25,13 @@ class Trending extends React.Component {
   }
 
   render() {
-    const previews = this.getVideoPreviews();
     const loaderActive = this.shouldShowLoader();
     return (
-      <>
-        <SideBar />
-        <div className="trending">
-          <InfiniteScroll
-            bottomReachedCallback={this.fetchMoreVideos}
-            showLoader={loaderActive}
-          >
-            {previews}
-          </InfiniteScroll>
-        </div>
-      </>
+      <VideoList
+        bottomReachedCallback={this.fetchMoreVideos}
+        showLoader={loaderActive}
+        videos={this.props.videos}
+      />
     );
   }
 
@@ -50,19 +43,6 @@ class Trending extends React.Component {
     if (this.props.youtubeLibraryLoaded) {
       this.props.fetchMostPopularVideos(20, true);
     }
-  }
-
-  getVideoPreviews() {
-    return this.props.videos.map((video) => (
-      <VideoPreview
-        horizontal={true}
-        expanded={true}
-        video={video}
-        key={video.id}
-        pathname={"/watch"}
-        search={"?v=" + video.id}
-      />
-    ));
   }
 
   fetchMoreVideos = () => {
