@@ -1,16 +1,13 @@
 import React from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { VideoPreview } from "../../components/VideoPreview/VideoPreview";
 import { getYoutubeLibraryLoaded } from "../../store/reducers/api";
 import {
   allMostPopularVideosLoaded,
   getMostPopularVideos,
   getMostPopularVideosNextPageToken,
 } from "../../store/reducers/videos";
-import { SideBar } from "../SideBar/SideBar";
 import * as videoActions from "../../store/actions/video";
-import { InfiniteScroll } from "../../components/InfiniteScroll/InfiniteScroll";
 import { VideoList } from "../../components/VideoList/VideoList";
 
 class Trending extends React.Component {
